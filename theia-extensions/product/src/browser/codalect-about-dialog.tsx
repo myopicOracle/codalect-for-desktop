@@ -10,12 +10,12 @@
 import * as React from 'react';
 import { AboutDialog, AboutDialogProps, ABOUT_CONTENT_CLASS } from '@theia/core/lib/browser/about-dialog';
 import { injectable, inject } from '@theia/core/shared/inversify';
-import { renderDocumentation, renderDownloads, renderSourceCode, renderSupport, renderTickets, renderWhatIs } from './branding-util';
+import { renderSupport, renderWhatIs } from './branding-util';
 import { VSXEnvironment } from '@theia/vsx-registry/lib/common/vsx-environment';
 import { WindowService } from '@theia/core/lib/browser/window/window-service';
 
 @injectable()
-export class TheiaIDEAboutDialog extends AboutDialog {
+export class CodalectAboutDialog extends AboutDialog {
 
     @inject(VSXEnvironment)
     protected readonly environment: VSXEnvironment;
@@ -61,33 +61,12 @@ export class TheiaIDEAboutDialog extends AboutDialog {
                     {renderSupport(this.windowService)}
                 </div>
             </div>
-            <div className='flex-grid'>
-                <div className='col'>
-                    {renderTickets(this.windowService)}
-                </div>
-            </div>
-            <div className='flex-grid'>
-                <div className='col'>
-                    {renderSourceCode(this.windowService)}
-                </div>
-            </div>
-            <div className='flex-grid'>
-                <div className='col'>
-                    {renderDocumentation(this.windowService)}
-                </div>
-            </div>
-            <div className='flex-grid'>
-                <div className='col'>
-                    {renderDownloads()}
-                </div>
-            </div>
         </div>;
-
     }
 
     protected renderTitle(): React.ReactNode {
         return <div className='gs-header'>
-            <h1>Eclipse Theia <span className='gs-blue-header'>IDE</span></h1>
+            <h1>Codalect</h1>
             {this.renderVersion()}
         </div>;
     }
@@ -96,10 +75,6 @@ export class TheiaIDEAboutDialog extends AboutDialog {
         return <div>
             <p className='gs-sub-header' >
                 {this.applicationInfo ? 'Version ' + this.applicationInfo.version : '-'}
-            </p>
-
-            <p className='gs-sub-header' >
-                {'VS Code API Version: ' + this.vscodeApiVersion}
             </p>
         </div>;
     }

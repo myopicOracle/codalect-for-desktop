@@ -93,11 +93,11 @@ export class TheiaDesktopFileServiceEndpoint implements BackendApplicationContri
 
         const createOrUpdate = request.body.create;
         if (createOrUpdate) {
-            const imagePath = path.join(process.env.HOME!, '.local', 'share', 'applications', 'theia-ide-electron-app.png');
+            const imagePath = path.join(process.env.HOME!, '.local', 'share', 'applications', 'codalect-electron-app.png');
             if (!fs.existsSync(imagePath)) {
                 const appDir = process.env.APPDIR;
                 if (appDir !== undefined) {
-                    const unpackedImagePath = path.join(appDir, 'theia-ide-electron-app.png');
+                    const unpackedImagePath = path.join(appDir, 'codalect-electron-app.png');
                     if (fs.existsSync(unpackedImagePath)) {
                         fs.copyFileSync(unpackedImagePath, imagePath);
                     } else {
@@ -108,10 +108,10 @@ export class TheiaDesktopFileServiceEndpoint implements BackendApplicationContri
                 }
             }
 
-            const desktopFilePath = path.join(process.env.HOME!, '.local', 'share', 'applications', 'theia-ide-launcher.desktop');
+            const desktopFilePath = path.join(process.env.HOME!, '.local', 'share', 'applications', 'codalect-launcher.desktop');
             fs.outputFileSync(desktopFilePath, this.getDesktopFileContents(process.env.APPIMAGE!, imagePath));
 
-            const desktopURLFilePath = path.join(process.env.HOME!, '.local', 'share', 'applications', 'theia-ide-launcher-url.desktop');
+            const desktopURLFilePath = path.join(process.env.HOME!, '.local', 'share', 'applications', 'codalect-launcher-url.desktop');
             fs.outputFileSync(desktopURLFilePath, this.getDesktopURLFileContents(process.env.APPIMAGE!, imagePath));
 
             appImageInformation.appImage = process.env.APPIMAGE!;
@@ -126,28 +126,28 @@ export class TheiaDesktopFileServiceEndpoint implements BackendApplicationContri
 
     protected getDesktopFileContents(appImagePath: string, imagePath: string): string {
         return `[Desktop Entry]
-Name=Theia IDE
+Name=Codalect
 GenericName=Integrated Development Environment
 Exec=${appImagePath} %U
 Terminal=false
 Type=Application
 Icon=${imagePath}
-StartupWMClass=Theia IDE
-Comment=IDE for cloud and desktop
+StartupWMClass=Codalect
+Comment=AI coding environment for intermediate learners
 Categories=Development;IDE;`;
     }
 
     protected getDesktopURLFileContents(appImagePath: string, imagePath: string): string {
         return `[Desktop Entry]
-Name=Theia IDE - URL Handler
+Name=Codalect - URL Handler
 GenericName=Integrated Development Environment
 Exec=${appImagePath} --open-url %U
 Terminal=false
 Type=Application
 NoDisplay=true
 Icon=${imagePath}
-MimeType=x-scheme-handler/theia;
-Comment=IDE for cloud and desktop
+MimeType=x-scheme-handler/codalect;
+Comment=AI coding environment for intermediate learners
 Categories=Development;IDE;`;
     }
 }

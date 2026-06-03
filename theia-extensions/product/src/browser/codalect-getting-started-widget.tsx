@@ -13,7 +13,7 @@ import { Message } from '@theia/core/lib/browser';
 import { PreferenceService } from '@theia/core/lib/common';
 import { inject, injectable } from '@theia/core/shared/inversify';
 import {
-    renderDocumentation, renderDownloads, renderExtendingCustomizing, renderSourceCode, renderSupport, renderTickets, renderWhatIs, renderCollaboration
+    renderDownloads, renderGettingStarted, renderSupport, renderWhatIs
 } from './branding-util';
 
 import { GettingStartedWidget } from '@theia/getting-started/lib/browser/getting-started-widget';
@@ -21,7 +21,7 @@ import { VSXEnvironment } from '@theia/vsx-registry/lib/common/vsx-environment';
 import { WindowService } from '@theia/core/lib/browser/window/window-service';
 
 @injectable()
-export class TheiaIDEGettingStartedWidget extends GettingStartedWidget {
+export class CodalectGettingStartedWidget extends GettingStartedWidget {
 
     @inject(VSXEnvironment)
     protected readonly environment: VSXEnvironment;
@@ -61,47 +61,17 @@ export class TheiaIDEGettingStartedWidget extends GettingStartedWidget {
                 <hr className='gs-hr' />
                 <div className='flex-grid'>
                     <div className='col'>
-                        {this.renderNews()}
-                    </div>
-                </div>
-                <div className='flex-grid'>
-                    <div className='col'>
                         {renderWhatIs(this.windowService)}
                     </div>
                 </div>
                 <div className='flex-grid'>
                     <div className='col'>
-                        {renderExtendingCustomizing(this.windowService)}
+                        {renderGettingStarted(this.windowService)}
                     </div>
                 </div>
                 <div className='flex-grid'>
                     <div className='col'>
                         {renderSupport(this.windowService)}
-                    </div>
-                </div>
-                <div className='flex-grid'>
-                    <div className='col'>
-                        {renderTickets(this.windowService)}
-                    </div>
-                </div>
-                <div className='flex-grid'>
-                    <div className='col'>
-                        {renderSourceCode(this.windowService)}
-                    </div>
-                </div>
-                <div className='flex-grid'>
-                    <div className='col'>
-                        {renderDocumentation(this.windowService)}
-                    </div>
-                </div>
-                <div className='flex-grid'>
-                    <div className='col'>
-                        {this.renderAIBanner()}
-                    </div>
-                </div>
-                <div className='flex-grid'>
-                    <div className='col'>
-                        {renderCollaboration(this.windowService)}
                     </div>
                 </div>
                 <div className='flex-grid'>
@@ -143,7 +113,7 @@ export class TheiaIDEGettingStartedWidget extends GettingStartedWidget {
 
     protected renderHeader(): React.ReactNode {
         return <div className='gs-header'>
-            <h1>Eclipse Theia <span className='gs-blue-header'>IDE</span></h1>
+            <h1>Codalect</h1>
             {this.renderVersion()}
         </div>;
     }
@@ -153,18 +123,6 @@ export class TheiaIDEGettingStartedWidget extends GettingStartedWidget {
             <p className='gs-sub-header' >
                 {this.applicationInfo ? 'Version ' + this.applicationInfo.version : '-'}
             </p>
-
-            <p className='gs-sub-header' >
-                {'VS Code API Version: ' + this.vscodeApiVersion}
-            </p>
         </div>;
-    }
-
-    protected renderAIBanner(): React.ReactNode {
-        const framework = super.renderAIBanner();
-        if (React.isValidElement<React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>>(framework)) {
-            return React.cloneElement(framework, { className: 'gs-section' });
-        }
-        return framework;
     }
 }

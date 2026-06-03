@@ -1,11 +1,11 @@
 {
   "private": true,
-  "name": "theia-ide-browser-app",
-  "description": "Eclipse Theia IDE browser product",
-  "productName": "Theia IDE",
+  "name": "codalect-desktop-browser-app",
+  "description": "Codalect Desktop - AI coding environment for intermediate learners",
+  "productName": "Codalect",
   "version": "1.67.100",
   "license": "MIT",
-  "author": "Eclipse Theia <theia-dev@eclipse.org>",
+  "author": "Praevisio Labs <hello@codalect.com>",
   "homepage": "https://github.com/eclipse-theia/theia-ide#readme",
   "bugs": {
     "url": "https://github.com/eclipse-theia/theia/issues"
@@ -21,7 +21,7 @@
   "theia": {
     "frontend": {
       "config": {
-        "applicationName": "Theia IDE",
+        "applicationName": "Codalect",
         "warnOnPotentiallyInsecureHostPattern": false,
         "preferences": {
           "toolbar.showToolbar": true,

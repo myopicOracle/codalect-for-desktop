@@ -8,18 +8,18 @@
  ********************************************************************************/
 
 :root {
-    --theia-branding-logo: url(../icons/TheiaIDE.png);
+    --theia-branding-logo: url(../icons/codalect-lockup.png);
 }
 
 .theia-icon {
-    background-image: url("../icons/512-512.png");
+    background-image: url("../icons/codalect-icon-512.png");
     background-position: center;
     background-repeat: no-repeat;
     background-size: contain;
   }
 
 .gs-blue-header {
-    color: #5088e7;
+    color: #FF9E00;
     text-transform: capitalize;
     font-weight: 600;
 }

@@ -13,50 +13,50 @@ import { Command, CommandContribution, CommandRegistry } from '@theia/core/lib/c
 import { MenuContribution, MenuModelRegistry, MenuPath } from '@theia/core/lib/common/menu';
 import { WindowService } from '@theia/core/lib/browser/window/window-service';
 
-export namespace TheiaIDEMenus {
-    export const THEIA_IDE_HELP: MenuPath = [...CommonMenus.HELP, 'theia-ide'];
+export namespace CodalectMenus {
+    export const CODALECT_HELP: MenuPath = [...CommonMenus.HELP, 'codalect'];
 }
-export namespace TheiaIDECommands {
-    export const CATEGORY = 'TheiaIDE';
+export namespace CodalectCommands {
+    export const CATEGORY = 'Codalect';
     export const REPORT_ISSUE: Command = {
-        id: 'theia-ide:report-issue',
+        id: 'codalect:report-issue',
         category: CATEGORY,
         label: 'Report Issue'
     };
     export const DOCUMENTATION: Command = {
-        id: 'theia-ide:documentation',
+        id: 'codalect:documentation',
         category: CATEGORY,
         label: 'Documentation'
     };
 }
 
 @injectable()
-export class TheiaIDEContribution implements CommandContribution, MenuContribution {
+export class CodalectContribution implements CommandContribution, MenuContribution {
 
     @inject(WindowService)
     protected readonly windowService: WindowService;
 
-    static REPORT_ISSUE_URL = 'https://github.com/eclipse-theia/theia-ide/issues/new?assignees=&labels=&template=bug_report.md';
-    static DOCUMENTATION_URL = 'https://theia-ide.org/docs/user_getting_started/';
+    static REPORT_ISSUE_URL = 'https://github.com/Praevisio-Labs/codalect-for-desktop/issues/new?assignees=&labels=bug&template=bug_report.md';
+    static DOCUMENTATION_URL = 'https://www.codalect.com/docs';
 
     registerCommands(commandRegistry: CommandRegistry): void {
-        commandRegistry.registerCommand(TheiaIDECommands.REPORT_ISSUE, {
-            execute: () => this.windowService.openNewWindow(TheiaIDEContribution.REPORT_ISSUE_URL, { external: true })
+        commandRegistry.registerCommand(CodalectCommands.REPORT_ISSUE, {
+            execute: () => this.windowService.openNewWindow(CodalectContribution.REPORT_ISSUE_URL, { external: true })
         });
-        commandRegistry.registerCommand(TheiaIDECommands.DOCUMENTATION, {
-            execute: () => this.windowService.openNewWindow(TheiaIDEContribution.DOCUMENTATION_URL, { external: true })
+        commandRegistry.registerCommand(CodalectCommands.DOCUMENTATION, {
+            execute: () => this.windowService.openNewWindow(CodalectContribution.DOCUMENTATION_URL, { external: true })
         });
     }
 
     registerMenus(menus: MenuModelRegistry): void {
-        menus.registerMenuAction(TheiaIDEMenus.THEIA_IDE_HELP, {
-            commandId: TheiaIDECommands.REPORT_ISSUE.id,
-            label: TheiaIDECommands.REPORT_ISSUE.label,
+        menus.registerMenuAction(CodalectMenus.CODALECT_HELP, {
+            commandId: CodalectCommands.REPORT_ISSUE.id,
+            label: CodalectCommands.REPORT_ISSUE.label,
             order: '1'
         });
-        menus.registerMenuAction(TheiaIDEMenus.THEIA_IDE_HELP, {
-            commandId: TheiaIDECommands.DOCUMENTATION.id,
-            label: TheiaIDECommands.DOCUMENTATION.label,
+        menus.registerMenuAction(CodalectMenus.CODALECT_HELP, {
+            commandId: CodalectCommands.DOCUMENTATION.id,
+            label: CodalectCommands.DOCUMENTATION.label,
             order: '2'
         });
     }

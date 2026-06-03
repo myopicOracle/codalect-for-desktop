@@ -1,12 +1,12 @@
 {
   "private": true,
-  "name": "theia-ide-electron-app",
-  "description": "Eclipse Theia IDE product",
-  "productName": "Theia IDE",
+  "name": "codalect-desktop-electron-app",
+  "description": "Codalect Desktop - AI coding environment for intermediate learners",
+  "productName": "Codalect",
   "version": "1.67.100",
   "main": "scripts/theia-electron-main.js",
   "license": "MIT",
-  "author": "Eclipse Theia <theia-dev@eclipse.org>",
+  "author": "Praevisio Labs <hello@codalect.com>",
   "homepage": "https://github.com/eclipse-theia/theia-ide#readme",
   "bugs": {
     "url": "https://github.com/eclipse-theia/theia/issues"
@@ -23,7 +23,7 @@
     "target": "electron",
     "frontend": {
       "config": {
-        "applicationName": "Theia IDE",
+        "applicationName": "Codalect",
         "reloadOnReconnect": true,
         "preferences": {
           "toolbar.showToolbar": true,
@@ -32,7 +32,7 @@
         "electron": {
           "showWindowEarly": false,
           "splashScreenOptions": {
-            "content": "resources/TheiaIDESplash.svg",
+            "content": "resources/CodalectSplash.svg",
             "height": 276,
             "width": 446
           }
