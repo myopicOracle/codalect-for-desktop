@@ -52,7 +52,7 @@ jobs:
 
       - name: Rename AppImage with version
         run: |
-          mv applications/electron/dist/TheiaIDE.AppImage applications/electron/dist/TheiaIDE-$THEIA_IDE_VERSION.AppImage
+          mv applications/electron/dist/Codalect.AppImage applications/electron/dist/Codalect-$THEIA_IDE_VERSION.AppImage
 
       - name: Upload Linux Dist Files
         if: runner.os == 'Linux' && github.event_name != 'pull_request'
@@ -60,5 +60,5 @@ jobs:
         with:
           name: linux
           path: |
-            applications/electron/dist/TheiaIDE-${{ env.THEIA_IDE_VERSION }}.AppImage
+            applications/electron/dist/Codalect-${{ env.THEIA_IDE_VERSION }}.AppImage
           retention-days: 7

@@ -15,24 +15,24 @@ import { CommandContribution } from '@theia/core/lib/common/command';
 import { ContainerModule } from '@theia/core/shared/inversify';
 import { GettingStartedWidget } from '@theia/getting-started/lib/browser/getting-started-widget';
 import { MenuContribution } from '@theia/core/lib/common/menu';
-import { TheiaIDEAboutDialog } from './theia-ide-about-dialog';
-import { TheiaIDEContribution } from './theia-ide-contribution';
-import { TheiaIDEGettingStartedWidget } from './theia-ide-getting-started-widget';
+import { CodalectAboutDialog } from './codalect-about-dialog';
+import { CodalectContribution } from './codalect-contribution';
+import { CodalectGettingStartedWidget } from './codalect-getting-started-widget';
 
 export default new ContainerModule((bind, _unbind, isBound, rebind) => {
-    bind(TheiaIDEGettingStartedWidget).toSelf();
+    bind(CodalectGettingStartedWidget).toSelf();
     bind(WidgetFactory).toDynamicValue(context => ({
         id: GettingStartedWidget.ID,
-        createWidget: () => context.container.get<TheiaIDEGettingStartedWidget>(TheiaIDEGettingStartedWidget),
+        createWidget: () => context.container.get<CodalectGettingStartedWidget>(CodalectGettingStartedWidget),
     })).inSingletonScope();
     if (isBound(AboutDialog)) {
-        rebind(AboutDialog).to(TheiaIDEAboutDialog).inSingletonScope();
+        rebind(AboutDialog).to(CodalectAboutDialog).inSingletonScope();
     } else {
-        bind(AboutDialog).to(TheiaIDEAboutDialog).inSingletonScope();
+        bind(AboutDialog).to(CodalectAboutDialog).inSingletonScope();
     }
 
-    bind(TheiaIDEContribution).toSelf().inSingletonScope();
+    bind(CodalectContribution).toSelf().inSingletonScope();
     [CommandContribution, MenuContribution].forEach(serviceIdentifier =>
-        bind(serviceIdentifier).toService(TheiaIDEContribution)
+        bind(serviceIdentifier).toService(CodalectContribution)
     );
 });

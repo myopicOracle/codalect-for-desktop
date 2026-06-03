@@ -19,4 +19,4 @@ about: Create a report to help us improve
 ### Additional Information
 
 - Operating System:
-- Theia Version:
+- Codalect Version:

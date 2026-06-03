@@ -1,3 +1,13 @@
+# Notices for Codalect Desktop
+
+Codalect Desktop is a commercial product built on Eclipse Theia IDE v1.67.100.
+It is developed and maintained by Praevisio Labs.
+Source: https://github.com/Praevisio-Labs/codalect-for-desktop
+
+The following notices apply to the Eclipse Theia platform on which Codalect Desktop is based.
+
+---
+
 # Notices for Eclipse Theia
 
 This content is produced and maintained by the Eclipse Theia project.

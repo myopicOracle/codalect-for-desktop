@@ -91,7 +91,7 @@ export class TheiaLauncherServiceEndpoint implements BackendApplicationContribut
             if (!targetExists) {
                 throw new Error('Could not find application to launch');
             }
-            sudo.exec(command, { name: 'Theia IDE' });
+            sudo.exec(command, { name: 'Codalect' });
         }
 
         const storageFile = await getStorageFilePath(this.envServer, TheiaLauncherServiceEndpoint.STORAGE_FILE_NAME);

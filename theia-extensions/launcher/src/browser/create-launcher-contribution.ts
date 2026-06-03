@@ -32,7 +32,7 @@ export class CreateLauncherCommandContribution implements FrontendApplicationCon
             if (!initialized) {
                 const messageContainer = document.createElement('div');
                 // eslint-disable-next-line max-len
-                messageContainer.textContent = nls.localizeByDefault("Would you like to install a shell command that launches the application?\nYou will be able to run the Theia IDE from the command line by typing 'theia'.");
+                messageContainer.textContent = nls.localizeByDefault("Would you like to install a shell command that launches the application?\nYou will be able to run Codalect from the command line by typing 'codalect'.");
                 messageContainer.setAttribute('style', 'white-space: pre-line');
                 const details = document.createElement('p');
                 details.textContent = 'Administrator privileges are required, you will need to enter your password next.';
@@ -55,7 +55,7 @@ export class CreateLauncherCommandContribution implements FrontendApplicationCon
             if (!initialized) {
                 const messageContainer = document.createElement('div');
                 // eslint-disable-next-line max-len
-                messageContainer.textContent = nls.localizeByDefault('Would you like to create a .desktop file for the Theia IDE?\nThis will make it easier to open the Theia IDE directly\nfrom your applications menu and enables further features.');
+                messageContainer.textContent = nls.localizeByDefault('Would you like to create a .desktop file for Codalect?\nThis will make it easier to open Codalect directly\nfrom your applications menu and enables further features.');
                 messageContainer.setAttribute('style', 'white-space: pre-line');
                 const dialog = new ConfirmDialog({
                     title: nls.localizeByDefault('Create .desktop file'),

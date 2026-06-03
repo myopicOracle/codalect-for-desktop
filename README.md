@@ -1,150 +1,90 @@
-<br/>
-<div id="theia-logo" align="center">
-    <br />
-    <img src="https://raw.githubusercontent.com/eclipse-theia/theia-ide/master/theia-extensions/product/src/browser/icons/TheiaIDE.png" alt="Theia Logo" width="300"/>
-    <h3>Eclipse Theia IDE</h3>
+<br>
+
+<div id="codalect-logo" align="center">
+    <br>
+    <img src="assets/lockup-dark.png" alt="Codalect Logo" width="300"/>
+    <h3>Codalect for Desktop</h3>
 </div>
 
-<div id="badges" align="center">
+<div id="tagline" align="center">
 
-The Eclipse Theia IDE is built with this project.\
-Eclipse Theia IDE also serves as a template for building desktop-based products based on the Eclipse Theia platform.
+Optimize judgment, not output.
 
 </div>
 
-[![Installers](https://img.shields.io/badge/download-installers-blue.svg?style=flat-curved)](https://theia-ide.org//#theiaidedownload)
-[![Build Status](https://ci.eclipse.org/theia/buildStatus/icon?subject=latest&job=Theia2%2Fmaster)](https://ci.eclipse.org/theia/job/Theia2/job/master/)
-<!-- currently we have no working next job because next builds are not published -->
-<!-- [![Build Status](https://ci.eclipse.org/theia/buildStatus/icon?subject=next&job=theia-next%2Fmaster)](https://ci.eclipse.org/theia/job/theia-next/job/master/) -->
+## The Problem
 
-[Main Theia Repository](https://github.com/eclipse-theia/theia)
+AI coding tools have made developers more productive while making intermediate learners less capable. The pattern is consistent: a learner generates working code, has no clear idea why it works, and now has less incentive to find out. This is *de-skilling* — the erosion of durable competence when AI substitutes for the retrieval and reasoning that build it. Cursor, Copilot, and Codex are optimized for output velocity. For a learner, that optimization works against them.
 
-[Visit the Theia website](http://www.theia-ide.org) for more documentation: [Using the Theia IDE](https://theia-ide.org/docs/user_getting_started/), [Packaging Theia as a Desktop Product](https://theia-ide.org/docs/blueprint_documentation/).
+## The Insight
+
+**The constraint is the product.** An IDE that resists completing work the learner could reason through is not a worse IDE — it is a different product with a different purpose. The Socratic constraint layer, the cursor agent, and nerfed inline completions are each a direct expression of this thesis, not workarounds.
+
+## Architecture
+
+Codalect Desktop is built on [Eclipse Theia IDE](https://theia-ide.org/) v1.67.100 — an open-source, VS Code-compatible IDE framework with full Electron packaging. Theia's dependency injection model (InversifyJS) allows any framework service to be overridden at the binding layer without forking the underlying platform. This is the mechanism that makes the constraint layer non-invasive.
+
+```
+desktop/
+├── applications/
+│   └── electron/          Electron desktop app (primary target)
+├── theia-extensions/
+│   ├── product/           Branding — welcome page, about dialog, icons
+│   └── codalect-ai/       Socratic constraint layer 
+```
+
+All Codalect-specific behavior lives in `theia-extensions/`. None of the `@theia/*` packages are forked or patched — every override is a `rebind()` call in a `ContainerModule`. This preserves the ability to track upstream Theia releases as the framework evolves.
+
+## Key Decisions
+
+**Theia as the backbone.** Theia provides the full VS Code-compatible IDE surface — Monaco editor, language server protocol, extension host, file system — without building any of it. The critical capability is the DI override model: any service in the framework can be replaced by registering a subclass at the same binding point. The constraint layer is exactly this: a custom `Agent` implementation registered over the default IDE chat agent.
+
+**`rebind()` over fork.** The Socratic constraint layer overrides `@theia/ai-chat`'s agent. Nerfed completions override `@theia/ai-code-completion`'s provider. The cursor agent adds an overlay widget to Monaco. None of these require touching framework source code.
+
+**Claude via `@theia/ai-anthropic`.** Theia ships the AI infrastructure — `@theia/ai-core`, `@theia/ai-chat`, `@theia/ai-anthropic`. The constraint layer is a custom agent that uses these contribution points, not a standalone AI integration built from scratch.
+
+**Monaco overlay widgets for the cursor agent.** `monaco.editor.ICodeEditor.addOverlayWidget()` renders contextual UI near the cursor without intercepting keyboard input or disrupting flow. No equivalent surface exists in Cursor or Copilot. This is a novel interaction primitive.
+
+## Build
+
+**Requirements:** Node.js ≥ 20, Yarn 1.x (`>=1.7.0 <2`)
+
+```bash
+# Dev build (faster, unminified frontend)
+yarn && yarn build:dev && yarn download:plugins
+
+# Run browser app
+yarn browser start                  # localhost:3000
+
+# Run Electron app
+yarn electron start
+
+# Package Electron app (outputs to applications/electron/dist/)
+yarn electron package
+
+# Clean build (after pulling or changing deps)
+git clean -xfd && yarn && yarn build:dev && yarn download:plugins
+```
+
+## Repository
+
+Built on [Eclipse Theia IDE](https://github.com/eclipse-theia/theia-ide) v1.67.100 (MIT).
+
+`v0.0.0` — unmodified upstream Theia fork  
+`desktop-v*` — Codalect work
+
+Codalect is a product of [Praevisio Labs](https://github.com/Praevisio-Labs).
+
+<br>
+
+<div id="praevisio-slogan" align="left">
+
+<img src="assets/praevisio/brand-slogan.png" alt="Praevisio.Labs Slogan" width="250"/>  
+
+</div>
+
+<br>
 
 ## License
 
-- [MIT](LICENSE)
-
-## Trademark
-
-"Theia" is a trademark of the Eclipse Foundation
-<https://www.eclipse.org/theia>
-
-## What is this?
-
-The Eclipse IDE is a modern and open IDE for cloud and desktop. The Theia IDE is based on the [Theia platform](https://theia-ide.org).
-The Theia IDE is available as a [downloadable desktop application](https://theia-ide.org//#theiaidedownload). You can also try the latest version of the Theia IDE online. The online test version is limited to 30 minutes per session and hosted via Theia.cloud. Finally, we provide an [experimental Docker image](#docker) for hosting the Theia IDE online.
-
-The Eclipse Theia IDE also serves as a **template** for building desktop-based products based on the Eclipse Theia platform, as well as to showcase Eclipse Theia capabilities. It is made up of a subset of existing Eclipse Theia features and extensions. [Documentation is available](https://theia-ide.org/docs/composing_applications/) to help you customize and build your own Eclipse Theia-based product.
-
-## Theia IDE vs Theia Blueprint
-
-The Theia IDE has been rebranded from its original name “Theia Blueprint”. You can therefore assume the terms “Theia IDE” and “Theia Blueprint” to be synonymous.
-
-## Development
-
-### Requirements
-
-Please check Theia's [prerequisites](https://github.com/eclipse-theia/theia/blob/master/doc/Developing.md#prerequisites), and keep node versions aligned between Theia IDE and that of the referenced Theia version.
-
-### Documentation
-
-Documentation on how to package Theia as a Desktop Product may be found [here](https://theia-ide.org/docs/blueprint_documentation/)
-
-### Repository Structure
-
-- Root level configures mono-repo build with lerna
-- `applications` groups the different app targets
-  - `browser` contains a browser based version of Eclipse Theia IDE that may be packaged as a Docker image
-  - `electron` contains the electron app to package, packaging configuration, and E2E tests for the electron target.
-- `theia-extensions` groups the various custom theia extensions for the Eclipse Theia IDE
-  - `product` contains a Theia extension contributing the product branding (about dialogue and welcome page).
-  - `updater` contains a Theia extension contributing the update mechanism and corresponding UI elements (based on the electron updater).
-  - `launcher` contains a Theia extension contributing, for AppImage applications, the option to create a script that allows to start the Eclipse Theia IDE from the command line by calling the 'theia' command.
-
-### Build
-
-For development and casual testing of the Eclipse Theia IDE, one can build it in "dev" mode. This permits building the IDE on systems with less resources, like a Raspberry Pi 4B with 4GB of RAM.
-
-NOTE: If manually building after updating dependencies or pulling to a newer commit, run `git clean -xfd` to help avoid runtime conflicts.
-
-```sh
-# Build "dev" version of the app. Its quicker, uses less resources, 
-# but the front end app is not "minified"
-yarn && yarn build:dev && yarn download:plugins
-```
-
-Production applications:
-
-```sh
-# Build production version of the Eclipse Theia IDE app
-yarn && yarn build && yarn download:plugins
-```
-
-### Package the Applications
-
-ATM we only produce packages for the Electron application.
-
-```sh
-yarn package:applications
-# or
-yarn electron package
-```
-
-The packaged application is located in `applications/electron/dist`.
-
-### Create a Preview Electron Electron Application (without packaging it)
-
-```sh
-yarn electron package:preview
-```
-
-The packaged application is located in `applications/electron/dist`.
-
-### Running E2E Tests on Electron
-
-The E2E tests basic UI tests of the actual application.
-This is done based on the preview of the packaged application.
-
-```sh
-yarn electron package:preview
-yarn electron test
-```
-
-### Running Browser app
-
-The browser app may be started with
-
-```sh
-yarn browser start
-```
-
-and connect to <http://localhost:3000/>
-
-### Troubleshooting
-
-- [_"Don't expect that you can build app for all platforms on one platform."_](https://www.electron.build/multi-platform-build)
-
-### Reporting Feature Requests and Bugs
-
-The features in the Eclipse Theia IDE are based on Theia and the included extensions/plugins. For bugs in Theia please consider opening an issue in the [Theia project on Github](https://github.com/eclipse-theia/theia/issues/new/choose).
-The Eclipse Theia IDE only packages existing functionality into a product and installers for the product. If you believe there is a mistake in packaging, something needs to be added to the packaging or the installers do not work properly, please [open an issue on Github](https://github.com/eclipse-theia/theia-ide/issues/new/choose) to let us know.
-
-### Docker
-
-The Docker image of the Theia IDE is currently in _experimental state_. It is built from the same sources and packages as the desktop version, but it is not part of the [preview test](https://github.com/eclipse-theia/theia-ide/blob/master/PUBLISHING.md#preview-testing-and-release-process-for-the-theia-ide).
-You can find a prebuilt Docker image of the IDE [here](https://github.com/eclipse-theia/theia-ide/pkgs/container/theia-ide%2Ftheia-ide).
-
-You can also create the Docker image for the Eclipse Theia IDE based on the browser app with the following build command:
-
-```sh
-docker build -t theia-ide -f browser.Dockerfile .
-```
-
-You may then run this with
-
-```sh
-docker run -p=3000:3000 --rm theia-ide
-```
-
-and connect to <http://localhost:3000/>
+[MIT](LICENSE)

@@ -1,6 +1,7 @@
 {
   "name": "theia-ide-launcher-ext",
   "version": "1.67.100",
+  "description": "Codalect Desktop Launcher",
   "keywords": [
     "theia-extension"
   ],
